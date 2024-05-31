@@ -44,7 +44,7 @@ resource "azurerm_public_ip" "this" {
 }
 
 module "application_gateway" {
-  source              = "../.."
+source              = "../.."
   global_settings     = var.global_settings
   name                = "appgateway"
   resource_group_name = azurerm_resource_group.this.name
