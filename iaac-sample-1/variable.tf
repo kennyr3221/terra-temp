@@ -10,4 +10,4 @@ variable "global_settings" {
     suffixes      = ["001"]
     random_length = 4
   }
-}
+
