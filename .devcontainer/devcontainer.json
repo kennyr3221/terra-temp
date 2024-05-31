@@ -1,0 +1,53 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/javascript-node
+{
+	"name": "Node.js",
+	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
+	"image": "mcr.microsoft.com/devcontainers/javascript-node:0-18",
+	"features": {
+		"ghcr.io/devcontainers/features/azure-cli:1": {},
+		"ghcr.io/devcontainers/features/docker-in-docker:2": {},
+		"ghcr.io/devcontainers/features/powershell:1": {},
+		"ghcr.io/devcontainers/features/terraform:1": {},
+		"ghcr.io/devcontainers-contrib/features/pre-commit:2": {},
+		"ghcr.io/devcontainers-contrib/features/terraform-ls-asdf:2": {},
+		"ghcr.io/dhoeric/features/tfsec:1": {},
+		"ghcr.io/devcontainers-contrib/features/terraform-docs": {},
+		"ghcr.io/ghcr.io/devcontainers-contrib/features/go-task": {},
+		"ghcr.io/azure/azure-dev/azd": {},
+		"ghcr.io/devcontainers/features/go:1": {},
+		"ghcr.io/devcontainers-contrib/features/terragrunt:1": {},
+		"ghcr.io/azure/azure-dev/azd:0": {}
+	},
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"hashicorp.terraform",
+				"ms-azuretools.vscode-azureterraform",
+				"ms-azuretools.vscode-docker",
+				"tfsec.tfsec",
+				"redhat.vscode-yaml",
+				"DavidAnson.vscode-markdownlint",
+				"ms-vscode.azurecli",
+				"apollographql.vscode-apollo",
+				"ms-azuretools.vscode-apimanagement",
+				"42Crunch.vscode-openapi"
+			]
+		}
+	},
+
+	// Features to add to the dev container. More info: https://containers.dev/features.
+	// "features": {},
+
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// "forwardPorts": [],
+
+	// Use 'postCreateCommand' to run commands after the container is created.
+	"postCreateCommand": "pre-commit install && pre-commit install-hooks"
+
+	// Configure tool-specific properties.
+	// "customizations": {},
+
+	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
+	// "remoteUser": "root"
+}
