@@ -5,9 +5,10 @@ variable "global_settings" {
     suffixes      = optional(list(string), null)
     random_length = optional(number, null)
   })
+
   default = {
     prefixes      = ["dev"]
     suffixes      = ["001"]
     random_length = 4
   }
-
+}
