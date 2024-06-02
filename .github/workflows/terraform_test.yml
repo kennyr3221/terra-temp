@@ -42,8 +42,8 @@ jobs:
 
     - name: Install Go and Terratest dependencies
       run: |
-        go install github.com/gruntwork-io/terratest/modules/terraform@latest
-        go install github.com/stretchr/testify/assert@latest
+        go get github.com/gruntwork-io/terratest/modules/terraform@latest
+        go get github.com/stretchr/testify/assert@latest
 
     - name: Run Terratest
       run: |
