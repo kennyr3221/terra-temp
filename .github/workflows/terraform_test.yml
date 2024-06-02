@@ -40,11 +40,11 @@ jobs:
 
     - name: Get dependencies
       run: |
-        go clean -modcache
         go mod vendor
         go get github.com/gruntwork-io/terratest/modules/terraform@v0.46.15
         go get github.com/stretchr/testify/assert@v1.8.4
         go mod tidy
+        go clean -modcache
 
     - name: Run Terratest for iaac-sample-1
       run: |
