@@ -13,8 +13,8 @@ variable "global_settings" {
   }
 }
 
-variable "location" {
-  description = "The location where resources will be deployed"
+variable "resource_group_location" {
+  description = "The location of the resource group"
   type        = string
   default     = "East US"
 }
