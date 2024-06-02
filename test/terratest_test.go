@@ -26,7 +26,9 @@ func TestTerraformIaacSample1(t *testing.T) {
 	terraform.InitAndApply(t, terraformOptions)
 
 	// Validate the resource group name and location
-	resourceGroup := terraform.Output(t, terraformOptions, "azurerm_resource_group_this")
-	assert.Equal(t, "example-resources", resourceGroup["name"])
-	assert.Equal(t, "East US", resourceGroup["location"])
+	resourceGroupName := terraform.Output(t, terraformOptions, "resource_group_name")
+	resourceGroupLocation := terraform.Output(t, terraformOptions, "resource_group_location")
+
+	assert.Equal(t, "example-resources", resourceGroupName)
+	assert.Equal(t, "East US", resourceGroupLocation)
 }
