@@ -10,6 +10,7 @@ variable "global_settings" {
     prefixes      = ["dev"]
     suffixes      = ["001"]
     random_length = 4
+    example       = null
   }
 }
 
