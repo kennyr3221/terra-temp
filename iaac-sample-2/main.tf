@@ -1,5 +1,6 @@
 provider "azurerm" {
   features {}
+}
 
 terraform {
   required_version = ">= 1.0.0"
@@ -13,6 +14,6 @@ terraform {
 }
 
 resource "azurerm_resource_group" "project1_rg" {
-  name     = "project1-resource-group"
-  location = "East US"
+  name     = var.resource_group_name
+  location = var.location
 }
