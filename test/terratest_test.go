@@ -9,11 +9,10 @@ import (
 func TestTerraformIaacSample1(t *testing.T) {
 	t.Parallel()
 
+	// Ensure the TerraformDir points to the correct directory with your Terraform configuration files
 	terraformOptions := &terraform.Options{
-		// The path to where your Terraform code is located
-		TerraformDir: "../",
+		TerraformDir: "../", // Adjust this path to the directory where your Terraform configuration is located
 
-		// Variables to pass to our Terraform code using -var options
 		Vars: map[string]interface{}{
 			"global_settings":         map[string]interface{}{},
 			"resource_group_location": "East US",
