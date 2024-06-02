@@ -35,26 +35,46 @@ jobs:
         sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
         sudo apt-get update && sudo apt-get install terraform
 
-    - name: Set up Go module
+    - name: Initialize Go module
       run: |
-        go mod init terratest-example || true
-        go get github.com/gruntwork-io/terratest/modules/terraform@latest
-        go get github.com/stretchr/testify/assert@latest
+        go mod init github.com/kennyr3221/terra-temp || true
+
+    - name: Get dependencies
+      run: |
+        go get github.com/gruntwork-io/terratest/modules/terraform@v0.46.15
+        go get github.com/stretchr/testify/assert@v1.8.4
         go mod tidy
 
-    - name: Run Terratest
+    - name: Run Terratest for iaac-sample-1
       run: |
         cd test
-        go test -v
+        go test -v -run TestTerraformIaacSample1
 
-    - name: Terraform Init
+    - name: Run Terratest for iaac-sample-2
+      run: |
+        cd test
+        go test -v -run TestTerraformIaacSample2
+
+    - name: Terraform Init for iaac-sample-1
       run: terraform init
-      working-directory: ./terraform
+      working-directory: ./iaac-sample-1
 
-    - name: Terraform Apply
+    - name: Terraform Apply for iaac-sample-1
       run: terraform apply -auto-approve
-      working-directory: ./terraform
+      working-directory: ./iaac-sample-1
 
-    - name: Terraform Destroy
+    - name: Terraform Destroy for iaac-sample-1
       run: terraform destroy -auto-approve
-      working-directory: ./terraform
+      working-directory: ./iaac-sample-1
+
+    - name: Terraform Init for iaac-sample-2
+      run: terraform init
+      working-directory: ./iaac-sample-2
+
+    - name: Terraform Apply for iaac-sample-2
+      run: terraform apply -auto-approve
+      working-directory: ./iaac-sample-2
+
+    - name: Terraform Destroy for iaac-sample-2
+      run: terraform destroy -auto-approve
+      working-directory: ./iaac-sample-2
