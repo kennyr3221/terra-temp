@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        go-version: ["1.17", "1.18"]
+        go-version: ["1.18", "1.19"]
     steps:
     - uses: actions/checkout@v4
 
@@ -36,11 +36,12 @@ jobs:
         sudo apt-get update && sudo apt-get install terraform
 
     - name: Initialize Go module
-      run: |
-        go mod init github.com/kennyr3221/terra-temp || true
+      run: go mod init github.com/kennyr3221/terra-temp || true
 
     - name: Get dependencies
       run: |
+        go clean -modcache
+        go mod vendor
         go get github.com/gruntwork-io/terratest/modules/terraform@v0.46.15
         go get github.com/stretchr/testify/assert@v1.8.4
         go mod tidy
