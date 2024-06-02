@@ -1,37 +1,32 @@
 package test
 
 import (
-    "testing"
-    "github.com/gruntwork-io/terratest/modules/terraform"
-    "github.com/stretchr/testify/assert"
+	"testing"
+	"github.com/gruntwork-io/terratest/modules/terraform"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestTerraformIaacSample1(t *testing.T) {
-    terraformOptions := &terraform.Options{
-        TerraformDir: "../iaac-sample-1",
-        Vars: map[string]interface{}{
-            "example": "test1",
-        },
-    }
+	t.Parallel()
 
-    defer terraform.Destroy(t, terraformOptions)
-    terraform.InitAndApply(t, terraformOptions)
+	terraformOptions := &terraform.Options{
+		// The path to where your Terraform code is located
+		TerraformDir: "../",
 
-    output := terraform.Output(t, terraformOptions, "example_output")
-    assert.Equal(t, "expected_output1", output)
-}
+		// Variables to pass to our Terraform code using -var options
+		Vars: map[string]interface{}{
+			"global_settings":         map[string]interface{}{},
+			"resource_group_location": "East US",
+			"resource_group_name":     "example-resources",
+		},
+	}
 
-func TestTerraformIaacSample2(t *testing.T) {
-    terraformOptions := &terraform.Options{
-        TerraformDir: "../iaac-sample-2",
-        Vars: map[string]interface{}{
-            "example": "test2",
-        },
-    }
+	// Run terraform init and apply. Fail the test if there are any errors.
+	defer terraform.Destroy(t, terraformOptions)
+	terraform.InitAndApply(t, terraformOptions)
 
-    defer terraform.Destroy(t, terraformOptions)
-    terraform.InitAndApply(t, terraformOptions)
-
-    output := terraform.Output(t, terraformOptions, "example_output")
-    assert.Equal(t, "expected_output2", output)
+	// Validate the resource group name and location
+	resourceGroup := terraform.Output(t, terraformOptions, "azurerm_resource_group_this")
+	assert.Equal(t, "example-resources", resourceGroup["name"])
+	assert.Equal(t, "East US", resourceGroup["location"])
 }
