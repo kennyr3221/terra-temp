@@ -1,10 +1,3 @@
-# Outputs for Project 1
-
-output "resource_group_name" {
-  description = "The name of the resource group"
-  value       = azurerm_resource_group.project1_rg.name
-}
-
 output "vnet_name" {
   description = "The name of the virtual network"
   value       = azurerm_virtual_network.project1_vnet.name
