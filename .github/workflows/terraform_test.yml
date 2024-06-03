@@ -48,21 +48,19 @@ jobs:
         go mod vendor
         
     - name: Set up Azure CLI
-    - uses: azure/login@v1
-    - with:
-           creds: ${{ secrets.AZURE_CREDENTIALS }}
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
 
     - name: Run Terraform
-    - run: |
+      run: |
         terraform init
         terraform apply -auto-approve
-
     
     - name: Run Terratest for iaac-sample-2
       run: |
         cd test
         go test -v -run TestTerraformIaacSample2
-
 
     - name: Terraform Init for iaac-sample-2
       run: terraform init
