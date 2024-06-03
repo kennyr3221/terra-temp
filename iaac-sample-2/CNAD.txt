@@ -6,12 +6,15 @@ project1-resource-group (East US)
     │   ├── firewall-subnet
     │   └── Network Security Group: project1-nsg
     ├── VM Scale Set: project1-vmss (1 to 5000 Ubuntu VMs)
+    ├   ├Separate VMs Across Zones and Regions
+    │   ├── VM Zone 1: project1-vm-zone1 (East US 2, Zone 1)
+    │   └── VM Zone 2: project1-vm-zone2 (West US 2, Zone 2)
     ├── Blob Storage: project1storage
     │   └── Container: vhds
     ├── SQL Database
     │   ├── Server: project1-sql-server
     │   └── Database: project1sqldb
-    ├── Data Analytics: project1-synapse
+    ├   └─ Data Analytics: project1-synapse
     ├── Private Endpoints
     │   ├── Blob Storage: project1-blob-pe
     │   ├── SQL Database: project1-sql-pe
@@ -28,6 +31,3 @@ project1-resource-group (East US)
     │   └── Public IP: project1-vpn-ip
     ├── Firewall: project1-firewall
     │   └── Public IP: project1-firewall-ip
-    ├── Separate VMs Across Zones and Regions
-    │   ├── VM Zone 1: project1-vm-zone1 (East US 2, Zone 1)
-    │   └── VM Zone 2: project1-vm-zone2 (West US 2, Zone 2)
