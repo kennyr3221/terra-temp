@@ -80,7 +80,7 @@ variable "admin_password" {
 variable "storage_account_name" {
   description = "The name of the storage account"
   type        = string
-  default     = "project1storage"
+  default     = "example.project1storage"
 }
 
 variable "container_name" {
