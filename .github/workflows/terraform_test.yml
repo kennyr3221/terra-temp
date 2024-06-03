@@ -46,6 +46,16 @@ jobs:
         go get github.com/stretchr/testify/assert@v1.8.4
         go mod tidy
         go mod vendor
+        
+    - name: Set up Azure CLI
+    - uses: azure/login@v1
+    - with:
+           creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Run Terraform
+    - run: |
+        terraform init
+        terraform apply -auto-approve
 
     
     - name: Run Terratest for iaac-sample-2
