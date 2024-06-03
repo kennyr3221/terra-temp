@@ -2,18 +2,14 @@ package test
 
 import (
 	"testing"
-
 	"github.com/gruntwork-io/terratest/modules/terraform"
 	"github.com/stretchr/testify/assert"
 )
 
 // An example of how to test the simple Terraform module in examples/terraform-basic-example using Terratest.
-func TestTerraformBasicExample(t *testing.T) {
-	t.Parallel()
-
-	expectedText := "test"
-	expectedList := []string{expectedText}
-	expectedMap := map[string]string{"expected": expectedText}
+func TestTerraformIaacSample1(t *testing.T) {
+	terraformOptions := &terraform.Options{
+		TerraformDir: "../iaac-sample-1",
 
 	terraformOptions := terraform.WithDefaultRetryableErrors(t, &terraform.Options{
 		// website::tag::1::Set the path to the Terraform code that will be tested.
