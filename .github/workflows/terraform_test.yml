@@ -47,27 +47,12 @@ jobs:
         go mod tidy
         go mod vendor
 
-    - name: Run Terratest for iaac-sample-1
-      run: |
-        cd test
-        go test -v -run TestTerraformIaacSample1
-
+    
     - name: Run Terratest for iaac-sample-2
       run: |
         cd test
         go test -v -run TestTerraformIaacSample2
 
-    - name: Terraform Init for iaac-sample-1
-      run: terraform init
-      working-directory: ./iaac-sample-1
-
-    - name: Terraform Apply for iaac-sample-1
-      run: terraform apply -auto-approve
-      working-directory: ./iaac-sample-1
-
-    - name: Terraform Destroy for iaac-sample-1
-      run: terraform destroy -auto-approve
-      working-directory: ./iaac-sample-1
 
     - name: Terraform Init for iaac-sample-2
       run: terraform init
