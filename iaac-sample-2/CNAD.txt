@@ -11,7 +11,7 @@ project1-resource-group (East US)
     ├── SQL Database
     │   ├── Server: project1-sql-server
     │   └── Database: project1sqldb
-    ├── Data Analytics: project1-synapse
+    ├   └─ Data Analytics: project1-synapse
     ├── Private Endpoints
     │   ├── Blob Storage: project1-blob-pe
     │   ├── SQL Database: project1-sql-pe
