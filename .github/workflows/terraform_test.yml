@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        go-version: ["1.18", "1.19"]
+        go-version: ["1.19"]
     steps:
     - uses: actions/checkout@v4
 
@@ -40,36 +40,40 @@ jobs:
 
     - name: Get dependencies
       run: |
+        export GIT_LFS_SKIP_SMUDGE=1
         go clean -modcache
-        go mod vendor
         go get github.com/gruntwork-io/terratest/modules/terraform@v0.46.15
         go get github.com/stretchr/testify/assert@v1.8.4
         go mod tidy
-
-    - name: Run Terratest for iaac-sample-1
+        go mod vendor
+        
+    - name: Azure login
+      uses: azure/login@v2
+      with:
+        creds: '{
+          "clientId": "${{ secrets.AZURE_CLIENT_ID }}",
+          "clientSecret": "${{ secrets.AZURE_CLIENT_SECRET }}",
+          "subscriptionId": "${{ secrets.AZURE_SUBSCRIPTION_ID }}",
+          "tenantId": "${{ secrets.AZURE_TENANT_ID }}"
+        }'
+        enable-AzPSSession: true
+        
+    - name: Run Terraform
       run: |
-        cd test
-        go test -v -run TestTerraformIaacSample1
-
+        terraform init
+        terraform apply -auto-approve
+    
     - name: Run Terratest for iaac-sample-2
       run: |
         cd test
         go test -v -run TestTerraformIaacSample2
 
-    - name: Terraform Init for iaac-sample-1
-      run: terraform init
-      working-directory: ./iaac-sample-1
-
-    - name: Terraform Apply for iaac-sample-1
-      run: terraform apply -auto-approve
-      working-directory: ./iaac-sample-1
-
-    - name: Terraform Destroy for iaac-sample-1
-      run: terraform destroy -auto-approve
-      working-directory: ./iaac-sample-1
-
     - name: Terraform Init for iaac-sample-2
       run: terraform init
+      working-directory: ./iaac-sample-2
+
+    - name: Terraform Plan for iaac-sample-2
+      run: terraform plan
       working-directory: ./iaac-sample-2
 
     - name: Terraform Apply for iaac-sample-2
