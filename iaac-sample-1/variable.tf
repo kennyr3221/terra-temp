@@ -4,6 +4,11 @@ variable "global_settings" {
   default     = {}
 }
 
+variable "name" {
+  description = "Name of the application gateway"
+  type        = string
+}
+
 variable "resource_group_location" {
   description = "The location of the resource group"
   type        = string
