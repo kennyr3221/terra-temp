@@ -1,7 +1,8 @@
+#Will update after Vm configuration,variable file update
 resource "azurerm_lb" "project1_lb" {
   name                = "project1-lb"
   location            = azurerm_resource_group.project1_rg.location
-  resource_group_name = azurerm_resource_group.project1_rg.name
+  resource_group_name = azurerm_resource_group.project1_rg.project1_lb
 
   frontend_ip_configuration {
     name                 = "project1-fe-config"
@@ -13,7 +14,7 @@ resource "azurerm_public_ip" "project1_lb_ip" {
   name                = "project1-lb-ip"
   location            = azurerm_resource_group.project1_rg.location
   allocation_method   = "Static"
-  resource_group_name = azurerm_resource_group.project1_rg.name
+  resource_group_name = azurerm_resource_group.project1_rg.project1_lb_ip
 }
 
 resource "azurerm_lb_backend_address_pool" "project1_lb_pool" {
@@ -27,7 +28,7 @@ resource "azurerm_lb_rule" "project1_lb_rule" {
   protocol                       = "Tcp"
   frontend_port                  = 22
   backend_port                   = 22
-  frontend_ip_configuration_name = azurerm_lb.project1_lb.frontend_ip_configuration[0].name
+  frontend_ip_configuration_name = azurerm_lb.project1_lb.frontend_ip_configuration[0].project1_lb_rule
   probe_id                       = azurerm_lb_probe.project1_lb_probe.id
 }
 
@@ -40,7 +41,7 @@ resource "azurerm_lb_backend_address_pool_association" "project1_lb_association"
 resource "azurerm_public_ip" "project1_lb_ip" {
   name                = "project1-lb-ip"
   location            = azurerm_resource_group.project1_rg.location
-  resource_group_name = azurerm_resource_group.project1_rg.name
+  resource_group_name = azurerm_resource_group.project1_rg.project1_lb_ip
   allocation_method   = "Static"
   sku                 = "Standard"
 }
