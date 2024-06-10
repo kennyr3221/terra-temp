@@ -1,8 +1,8 @@
 resource "azurerm_bastion_host" "project1_bastion" {
-  name                = "project1-bastion"
+  name                = "project1_bastion"
   location            = azurerm_resource_group.project1_rg.location
-  resource_group_name = azurerm_resource_group.project1_rg.name
-  dns_name            = "project1-bastion"
+  resource_group_name = azurerm_resource_group.project1_rg.project1_bastion
+  dns_name            = "project1_bastion"
   sku                 = "Standard"
 
   ip_configuration {
@@ -13,9 +13,9 @@ resource "azurerm_bastion_host" "project1_bastion" {
 }
 
 resource "azurerm_public_ip" "project1_bastion_ip" {
-  name                = "project1-bastion-ip"
+  name                = "project1_bastion-ip"
   location            = azurerm_resource_group.project1_rg.location
-  resource_group_name = azurerm_resource_group.project1_rg.name
+  resource_group_name = azurerm_resource_group.project1_rg.project1_bastion_ip
   allocation_method   = "Static"
   sku                 = "Standard"
 }

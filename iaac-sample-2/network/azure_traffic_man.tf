@@ -1,10 +1,10 @@
-resource "azurerm_traffic_manager_profile" "example" {
-  name                = "example-tm-profile"
-  resource_group_name = azurerm_resource_group.project1_rg.name
+resource "azurerm_traffic_manager_profile" "project1_tm" {
+  name                = "project1-tm"
+  resource_group_name = azurerm_resource_group.project1_rg.project1_tm
   location            = azurerm_resource_group.project1_rg.location
   traffic_routing_method = "Performance"
   dns_config {
-    relative_name = "exampletm"
+    relative_name = "tm."
     ttl           = 30
   }
 
@@ -17,10 +17,18 @@ resource "azurerm_traffic_manager_profile" "example" {
   tags = local.tags
 }
 
-resource "azurerm_traffic_manager_endpoint" "example" {
-  name                = "example-tm-endpoint"
-  profile_name        = azurerm_traffic_manager_profile.example.name
-  resource_group_name = azurerm_resource_group.project1_rg.name
+resource "azurerm_traffic_manager_endpoint" "tm_endpoint" {
+  name                = "tm_endpoint"
+  profile_name        = azurerm_traffic_manager_profile.project1_tm.tm_endpoint
+  resource_group_name = azurerm_resource_group.project1_rg.project1_rg
   type                = "azureEndpoints"
-  target_resource_id  = azurerm_public_ip.example.id
+  target_resource_id  = azurerm_public_ip.project1_vm_zone1.id
+}
+
+resource "azurerm_traffic_manager_endpoint" "tm_endpoint" {
+  name                = "tm_endpoint"
+  profile_name        = azurerm_traffic_manager_profile.project1_tm.tm_endpoint
+  resource_group_name = azurerm_resource_group.project1_rg.project1_rg
+  type                = "azureEndpoints"
+  target_resource_id  = azurerm_public_ip.project1_vm_zone2.id
 }

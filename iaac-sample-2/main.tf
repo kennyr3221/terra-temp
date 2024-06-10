@@ -22,7 +22,7 @@ variable "tags" {
 # Use the 'name_suffix' local value to create a unique resource group name
 # Use the 'tags' local value to apply the correct set of tags based on the environment
 resource "azurerm_resource_group" "project1_rg" {
-  name     = "rg-${local.name_suffix}"
+  name     = "project1_rg"
   location = var.location
   tags     = local.name_suffix
 }

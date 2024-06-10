@@ -1,9 +1,9 @@
 resource "azurerm_firewall" "project1_firewall" {
-  name                = "project1-firewall"
+  name                = "project1_firewall"
   location            = azurerm_resource_group.project1_rg.location
-  resource_group_name = azurerm_resource_group.project1_rg.name
-  sku_tier            = "Standard"  # Add the missing "sku_tier" attribute
-  sku_name            = "AZFW_Hub"  # Add the missing "sku_name" attribute
+  resource_group_name = azurerm_resource_group.project1_firewall.project1_rg
+  sku_tier            = "Standard" 
+  sku_name            = "AZFW_Hub" 
 
   ip_configuration {
     name                 = "configuration"
@@ -15,6 +15,6 @@ resource "azurerm_firewall" "project1_firewall" {
 resource "azurerm_public_ip" "project1_firewall_ip" {
   name                = "project1-firewall-ip"
   location            = azurerm_resource_group.project1_rg.location
-  resource_group_name = azurerm_resource_group.project1_rg.name
+  resource_group_name = azurerm_resource_group.project1_rg.project1_firewall_ip
   allocation_method   = "Static"
 }

@@ -1,32 +1,32 @@
-resource "azurerm_backup_policy_vm" "example" {
-  name                = "example-backup-policy"
-  resource_group_name = azurerm_resource_group.project1_rg.name
-  recovery_vault_name = azurerm_recovery_services_vault.example.name
+resource "azurerm_recovery_services_vault" "rec_service_vault" {
+  name                = "rec_service_vault"
+  location            = azurerm_resource_group.project1_rg.location
+  resource_group_name = azurerm_resource_group.project1_rg.rec_service_vault
+  sku                 = "Standard"
+  cross_region_restore_enabled = true
+  public_network_access_enabled = true
+  soft_delete_enabled = true
+ #plan on adding encryption settings to backups
+}
+
+resource "azurerm_backup_policy_vm" "backup_policy" {
+  name                = "backup_policy"
+  resource_group_name = azurerm_resource_group.project1_rg.backup_policy
+  recovery_vault_name = azurerm_recovery_services_vault.rec_service_vault.backup_policy
 
   backup {
-    frequency = "Daily"
+    frequency = "weekly"
     time      = "23:00"
   }
 
   retention_daily {
     count = 7
-  }
-
-  tags = local.tags
+  } 
 }
 
-resource "azurerm_backup_protected_vm" "example" {
-  resource_group_name = azurerm_resource_group.project1_rg.name
-  recovery_vault_name = azurerm_recovery_services_vault.example.name
-  source_vm_id        = azurerm_virtual_machine.example.id
-  backup_policy_id    = azurerm_backup_policy_vm.example.id
-}
-
-resource "azurerm_recovery_services_vault" "example" {
-  name                = "exampleRecoveryVault"
-  location            = azurerm_resource_group.project1_rg.location
-  resource_group_name = azurerm_resource_group.project1_rg.name
-  sku                 = "Standard"
-
-  tags = local.tags
+resource "azurerm_backup_protected_vm" "backup_protected_vm" {
+  resource_group_name = azurerm_resource_group.project1_rg.backup_protected_vm
+  recovery_vault_name = azurerm_recovery_services_vault.rec_service_vault.backup_protected_vm
+  source_vm_id        = azurerm_virtual_machine.project1_container.id
+  backup_policy_id    = azurerm_backup_policy_vm.backup_policy.id
 }

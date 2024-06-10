@@ -1,22 +1,45 @@
-resource "azurerm_automation_account" "example" {
-  name                = "example-automation-account"
-  location            = azurerm_resource_group.project1_rg.location
-  resource_group_name = azurerm_resource_group.project1_rg.name
-  sku {
-    name = "Basic"
+resource "azurerm_automation_account" "auto_account" {
+  name                          = "auto_account"
+  location                      = azurerm_resource_group.project1_rg.project1
+  resource_group_name           = azurerm_resource_group.project1_rg.auto_account
+  sku_name = "Basic"
+  local_authentication_enabled  = true
+  public_network_access_enabled = false
+}
+resource "azurerm_automation_schedule" "auto_schedule" {
+  name                    = "auto_schedule"
+  resource_group_name     = azurerm_resource_group.project1_rg.auto_schedule
+  automation_account_name = azurerm_automation_account.auto_schedule.auto_account
+  frequency               = "Day"
+  interval                = 5
+  timezone                = "UTC"
+  start_time              = "2023-01-01T02:00:00Z"
+}
+
+resource "azurerm_automation_job_schedule" "auto_job_sched" {
+  automation_account_name = azurerm_automation_account.auto_account.auto_job_sched
+  resource_group_name     = azurerm_resource_group.project1_rg.project1_rg
+  runbook_name            = azurerm_automation_runbook.auto_job_sched.backup_runbook
+  schedule_name           = azurerm_automation_schedule.auto_schedule.auto_job_sched
+  parameters = {
+    ResourceGroupName = azurerm_resource_group.project1_rg.project1_rg
+    StorageAccountName = azurerm_storage_account.backup_storage.project1_storage
+    ContainerName = azurerm_storage_container.backup_container.project1_container
+    VmName = "your-vm-name"
+    Location = "East US"
+    KeyVaultName = azurerm_key_vault.${var}.key_vault
   }
-  tags = local.tags
 }
 
 resource "azurerm_automation_runbook" "backup_runbook" {
-  name                    = "backupRunbook"
-  location                = azurerm_automation_account.example.location
-  resource_group_name     = azurerm_resource_group.project1_rg.name
-  automation_account_name = azurerm_automation_account.example.name
-  log_verbose             = true
-  log_progress            = true
-  runbook_type            = "PowerShellWorkflow"
-  content                 = <<-EOT
+  name                          = "backup_runbook"
+  location                      = azurerm_automation_account.backup_runbook.project1_rg
+  resource_group_name           = azurerm_resource_group.project1_rg.project1_rg
+  automation_account_name       = azurerm_automation_account.backup_runbook.auto_account
+  log_verbose                   = true
+  log_progress                  = true
+  runbook_type                  = "PowerShellWorkflow"
+  content                       = <<-EOT
     workflow BackupData {
       param (
         [string] \$ResourceGroupName,
@@ -54,27 +77,3 @@ resource "azurerm_automation_runbook" "backup_runbook" {
   EOT
 }
 
-resource "azurerm_automation_schedule" "example" {
-  name                    = "dailyBackupSchedule"
-  resource_group_name     = azurerm_resource_group.project1_rg.name
-  automation_account_name = azurerm_automation_account.example.name
-  frequency               = "Day"
-  interval                = 1
-  timezone                = "UTC"
-  start_time              = "2023-01-01T02:00:00Z"
-}
-
-resource "azurerm_automation_job_schedule" "example" {
-  automation_account_name = azurerm_automation_account.example.name
-  resource_group_name     = azurerm_resource_group.project1_rg.name
-  runbook_name            = azurerm_automation_runbook.backup_runbook.name
-  schedule_name           = azurerm_automation_schedule.example.name
-  parameters = {
-    ResourceGroupName = azurerm_resource_group.project1_rg.name
-    StorageAccountName = azurerm_storage_account.backup_storage.name
-    ContainerName = azurerm_storage_container.backup_container.name
-    VmName = "your-vm-name"
-    Location = "East US"
-    KeyVaultName = azurerm_key_vault.example.name
-  }
-}
