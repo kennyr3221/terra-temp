@@ -1,3 +1,28 @@
+# variables.tf
+variable "environment" {
+  description = "The environment for which the resources are being created."
+  type        = string
+  default     = "production"
+}
+
+variable "tags_production" {
+  description = "A map of tags to be assigned to the production resources."
+  type        = map(string)
+  default = {
+    environment = "production"
+    project     = "project1"
+  }
+}
+
+variable "tags_testing" {
+  description = "A map of tags to be assigned to the testing resources."
+  type        = map(string)
+  default = {
+    environment = "testing"
+    project     = "project1"
+  }
+}
+
 variable "name" {
   description = "name of the resource"
   type        = string
