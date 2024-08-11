@@ -12,10 +12,10 @@ on:
       - '.github/workflows/release.yml'
 
 permissions:
-  contents: write
-  issues: write
-  packages: write
-  pull-requests: write
+  contents: read ,write
+  issues: read, write
+  packages: read, write
+  pull-requests: read, write
 
 jobs:
   release:
