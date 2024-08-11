@@ -5,7 +5,7 @@ terraform {
       version = "~> 3.106.1"
     }
   }
-  backend "azurerm" {} #Backend variables are initialized through the secret and variable folders
+  # backend "azurerm" {} # Backend variables are initialized through the secret and variable folders
 }
 
 provider "azurerm" {
@@ -16,12 +16,17 @@ provider "azurerm" {
   }
 }
 
+variable "environments" {
+  description = "List of environments"
+  type        = list(string)
+  default     = ["dev", "staging", "production"]
+}
+
 resource "azurerm_resource_group" "project1_rg" {
-  name     = "project1_rg"
+  for_each = toset(var.environments)
+  name     = "project1_rg_${each.key}"
   location = "East US"
-  tags     = {
-    environment = "dev"
-    environment = "staging" 
-    environment = "production"
+  tags = {
+    environment = each.key
   }
 }
