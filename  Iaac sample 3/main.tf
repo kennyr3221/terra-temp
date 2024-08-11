@@ -18,6 +18,10 @@ provider "azurerm" {
 
 resource "azurerm_resource_group" "project1_rg" {
   name     = "project1_rg"
-  location = var.location
-  tags     = local.name_suffix
+  location = "East US"
+  tags     = {
+    environment = "dev"
+    environment = "staging" 
+    environment = "production"
+  }
 }
