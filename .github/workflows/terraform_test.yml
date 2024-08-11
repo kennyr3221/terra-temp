@@ -47,39 +47,104 @@ jobs:
         go mod tidy
         go mod vendor
         
-   # - name: Azure login
-   #   uses: azure/login@v2
-   #   with:
-   #      creds: '{
-   #       "clientId": "${{ secrets.AZURE_CLIENT_ID }}",
-   #        "clientSecret": "${{ secrets.AZURE_CLIENT_SECRET }}",
-   #        "subscriptionId": "${{ secrets.AZURE_SUBSCRIPTION_ID }}",
-   #        "tenantId": "${{ secrets.AZURE_TENANT_ID }}"
-   #     }'
-   #     enable-AzPSSession: true
+    #- name: Azure login
+    #  uses: azure/login@v2
+    #  with:
+    #     creds: '{
+    #      "clientId": "${{ secrets.AZURE_CLIENT_ID }}",
+    #       "clientSecret": "${{ secrets.AZURE_CLIENT_SECRET }}",
+    #       "subscriptionId": "${{ secrets.AZURE_SUBSCRIPTION_ID }}",
+    #       "tenantId": "${{ secrets.AZURE_TENANT_ID }}"
+    #       enable-AzPSSession: true
+    #    }""
+   
+name: Terraform and Terratest
+
+on:
+  push:
+    branches:
+      - main
+      - features
+      - develop
+      - test
+  pull_request:
+    branches:
+      - main
+      - features
+      - develop
+      - test
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        go-version: ["1.19"]
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Go ${{ matrix.go-version }}
+      uses: actions/setup-go@v3
+      with:
+        go-version: ${{ matrix.go-version }}
+
+    - name: Install Terraform
+      run: |
+        sudo apt-get update && sudo apt-get install -y gnupg software-properties-common
+        curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
+        sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+        sudo apt-get update && sudo apt-get install terraform
+
+    - name: Initialize Go module
+      run: go mod init github.com/kennyr3221/terra-temp || true
+
+    - name: Get dependencies
+      run: |
+        export GIT_LFS_SKIP_SMUDGE=1
+        go clean -modcache
+        go get github.com/gruntwork-io/terratest/modules/terraform@v0.46.15
+        go get github.com/stretchr/testify/assert@v1.8.4
+        go mod tidy
+        go mod vendor
         
-    - name: Run Terraform
-      run: |
-        terraform init
-        terraform apply -auto-approve
-    
-    - name: Run Terratest for iaac-sample-2
-      run: |
-        cd test
-        go test -v -run TestTerraformIaacSample2
+    #- name: Azure login
+    #  uses: azure/login@v2
+    #  with:
+    #     creds: '{
+    #      "clientId": "${{ secrets.AZURE_CLIENT_ID }}",
+    #       "clientSecret": "${{ secrets.AZURE_CLIENT_SECRET }}",
+    #       "subscriptionId": "${{ secrets.AZURE_SUBSCRIPTION_ID }}",
+    #       "tenantId": "${{ secrets.AZURE_TENANT_ID }}"
+    #       enable-AzPSSession: true
+    #    }""
+   
+- name: "Terraform Operations for Iaac sample 3"
+  run: |
+    terraform validate
+    terraform apply -auto-approve
+  working-directory: ./Iaac sample 3
 
-    - name: Terraform Init for iaac-sample-2
-      run: terraform init
-      working-directory: ./iaac-sample-2
+- name: Verbose Logging on Failure
+  if: ${{ failure() }}
+  run: |
+    echo "Build failed. Logging details:"
+    echo "----------------------------------------"
+    echo "Terraform Plan:"
+    terraform plan
+    echo "----------------------------------------"
+    echo "Terraform Validate:"
+    terraform validate
+    echo "----------------------------------------"
+    echo "Terraform Apply:"
+    terraform apply -auto-approve
+    echo "----------------------------------------"
+    echo "Terraform Destroy:"
+    terraform destroy -auto-approve
+    echo "----------------------------------------"
+    echo "Terra test for Iaac sample 3 failed" >> ./Iaac_sample_3_terraform_operations.log
+  working-directory: ./Iaac_sample_3
 
-    - name: Terraform Plan for iaac-sample-2
-      run: terraform plan
-      working-directory: ./iaac-sample-2
-
-    - name: Terraform Apply for iaac-sample-2
-      run: terraform apply -auto-approve
-      working-directory: ./iaac-sample-2
-
-    - name: Terraform Destroy for iaac-sample-2
-      run: terraform destroy -auto-approve
-      working-directory: ./iaac-sample-2
+- name: Log Success
+  if: ${{ success() }}
+  run: echo "Terra test for Iaac sample 3 completed successfully" >> ./Iaac_sample_3_terraform_operations.log
+  working-directory: ./Iaac_sample_3
