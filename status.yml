@@ -1,1 +1,2 @@
 [![Terraform and Terratest](https://github.com/kennyr3221/terra-temp/actions/workflows/terraform_test.yml/badge.svg?branch=main&event=status)](https://github.com/kennyr3221/terra-temp/actions/workflows/terraform_test.yml)
+[![.github/workflows/terraform_test.yml](https://github.com/kennyr3221/terra-temp/actions/workflows/terraform_test.yml/badge.svg?branch=main&event=check_run)](https://github.com/kennyr3221/terra-temp/actions/workflows/terraform_test.yml)
