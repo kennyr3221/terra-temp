@@ -1,14 +1,19 @@
-# variables.tf
-variable "environment" {
+variable "tags_environment" {
   description = "The environment for which the resources are being created."
-  type        = string
-  default     = "production"
+  type        = map(string)
+  default = {
+    environment = "dev"
+    project     = "project1"
+  }
 }
 
-variable "staging" {
+variable "tags_staging" {
   description = "The environment for which the resources are being created."
-  type        = string
-  default     = "staging"
+  type        = map(string)
+  default = {
+    environment = "staging"
+    project     = "project1"
+  }
 }
 
 variable "tags_production" {
@@ -27,6 +32,16 @@ variable "tags_testing" {
     environment = "testing"
     project     = "project1"
   }
+}
+
+variable "resource_tags" {
+  description = "Map of resource tags"
+  type        = map(string)
+}
+
+variable "tags_dev" {
+  description = "Tags for the dev environment"
+  type        = map(string)
 }
 
 variable "name" {
@@ -293,3 +308,13 @@ variable "key_vault_id" {
   description = "The ID of the Key Vault where secrets will be stored."
   type        = string
 }
+
+variable "cost_center" {
+  description = "The cost center for the resources."
+  type        = map(string)
+  validation {
+    condition     = length(var.cost_center) <= 6 == true
+    error_message = ("Cost center must be 6 characters or less.")
+  }
+}
+
