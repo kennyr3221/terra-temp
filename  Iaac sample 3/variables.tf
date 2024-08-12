@@ -37,17 +37,19 @@ variable "tags_testing" {
 variable "resource_tags" {
   description = "Map of resource tags"
   type        = map(string)
+  default     = (null)
 }
 
 variable "tags_dev" {
   description = "Tags for the dev environment"
   type        = map(string)
+  default     = (null)
 }
 
 variable "name" {
   description = "name of the resource"
   type        = string
-  default     = "null"
+  default     = (null)
 }
 
 variable "vnet_name" {
@@ -98,11 +100,11 @@ variable "vm_size" {
   default     = "Standard_DS1_v2"
 }
 
-variable "admin_username" {
-  description = "Admin username for the virtual machines"
-  type        = string
-  default     = "azureuser"
-}
+#variable "admin_username" {
+#  description = "Admin username for the virtual machines"
+#  type        = string
+#  default     = "azureuser"
+#}
 
 #variable "admin_password" {
 #  description = "Admin password for the virtual machines"
@@ -134,11 +136,11 @@ variable "sql_database_name" {
   default     = "project1sqldb"
 }
 
-variable "sql_admin_username" {
-  description = "Admin username for the SQL server"
-  type        = string
-  default     = "adminuser"
-}
+#variable "sql_admin_username" {
+#  description = "Admin username for the SQL server"
+#  type        = string
+#  default     = "adminuser"
+#}
 
 #variable "sql_admin_password" {
 #  description = "Admin password for the SQL server"
@@ -152,11 +154,11 @@ variable "synapse_workspace_name" {
   default     = "project1synapse"
 }
 
-variable "synapse_sql_admin_username" {
-  description = "Admin username for Synapse"
-  type        = string
-  default     = "sqladmin"
-}
+#variable "synapse_sql_admin_username" {
+#  description = "Admin username for Synapse"
+#  type        = string
+#  default     = "sqladmin"
+#}
 
 #variable "synapse_sql_admin_password" {
 #  description = "Admin password for Synapse"
@@ -284,30 +286,31 @@ variable "resource_group_name" {
   default     = (null)
 }
 
-variable "tenant_id" {
-  description = "The tenant ID to be stored in the Key Vault."
-  type        = string
-}
+#Azure keyvault will be added later on and variables will be stored in the keyvault
+#variable "tenant_id" {
+#  description = "The tenant ID to be stored in the Key Vault."
+#  type        = string
+#}
 
-variable "client_id" {
-  description = "The client ID to be stored in the Key Vault."
-  type        = string
-}
+#variable "client_id" {
+#  description = "The client ID to be stored in the Key Vault."
+#  type        = string
+#}
 
-variable "client_secret" {
-  description = "The client secret to be stored in the Key Vault."
-  type        = string
-}
+#variable "client_secret" {
+#  description = "The client secret to be stored in the Key Vault."
+#  type        = string
+#}
 
-variable "subscription_id" {
-  description = "The subscription ID to be stored in the Key Vault."
-  type        = string
-}
+#variable "subscription_id" {
+#  description = "The subscription ID to be stored in the Key Vault."
+#  type        = string
+#}
 
-variable "key_vault_id" {
-  description = "The ID of the Key Vault where secrets will be stored."
-  type        = string
-}
+#variable "key_vault_id" {
+#  description = "The ID of the Key Vault where secrets will be stored."
+#  type        = string
+#}
 
 variable "cost_center" {
   description = "The cost center for the resources."
