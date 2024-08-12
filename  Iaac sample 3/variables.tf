@@ -311,13 +311,3 @@ variable "resource_group_name" {
 #  description = "The ID of the Key Vault where secrets will be stored."
 #  type        = string
 #}
-
-variable "cost_center" {
-  description = "The cost center for the resources."
-  type        = map(string)
-  validation {
-    condition     = length(var.cost_center) <= 6 == true
-    error_message = ("Cost center must be 6 characters or less.")
-  }
-}
-
