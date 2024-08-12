@@ -49,8 +49,10 @@ jobs:
 
     - name: Terraform Operations for Iaac sample 3
       run: |
+        terraform init
         terraform validate
         terraform apply -auto-approve
+        terraform destroy -auto-approve
       working-directory: ./Iaac sample 3
 
     - name: Verbose Logging on Failure
