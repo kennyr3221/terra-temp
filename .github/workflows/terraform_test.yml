@@ -53,7 +53,7 @@ jobs:
         terraform validate
         terraform apply -auto-approve
         terraform destroy -auto-approve
-      working-directory: ./Iaac sample 3
+      working-directory: ./ Iaac sample 3
 
     - name: Verbose Logging on Failure
       if: ${{ failure() }}
@@ -72,10 +72,10 @@ jobs:
         echo "Terraform Destroy:"
         terraform destroy -auto-approve
         echo "----------------------------------------"
-        echo "Terra test for Iaac sample 3 failed" >> ./Iaac sample 3 terraform_operations.log
-      working-directory: ./Iaac sample 3
+        echo "Terra test for Iaac sample 3 failed" >> ./ Iaac sample 3 terraform_operations.log
+      working-directory: ./ Iaac sample 3
 
     - name: Log Success
       if: ${{ success() }}
-      run: echo "Terra test for Iaac sample 3 completed successfully" >> ./Iaac sample 3 terraform_operations.log
-      working-directory: ./Iaac sample 3
+      run: echo "Terra test for Iaac sample 3 completed successfully" >> ./ Iaac sample 3 terraform_operations.log
+      working-directory: ./ Iaac sample 3
