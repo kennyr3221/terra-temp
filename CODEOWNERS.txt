@@ -1,0 +1,4 @@
+# This is a sample CODEOWNERS file for a GitHub repository.
+
+# Assigning ownership of all files in the repository to a user or team
+* @kennyr3221
